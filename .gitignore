@@ -1,6 +1,10 @@
 # build output
 dist/
 
+# capacitor
+android/
+ios/
+
 # generated types
 .astro/
 

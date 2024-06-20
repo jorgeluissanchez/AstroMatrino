@@ -22,9 +22,11 @@ const InputCodeList: React.FC<InputCodeListProps> = ({ codeList, paginationSize,
 
   useEffect(() => {
     setCodes(codeList);
+    setPaginationIndex(0);
   }, [codeList]);
 
   const processTextToMatrix = (text: string) => {
+    console.log(text);
     const rows = text.trim().split('\n');
     let isValid = true;
     const uniqueCodes = new Set<string>();
@@ -51,7 +53,7 @@ const InputCodeList: React.FC<InputCodeListProps> = ({ codeList, paginationSize,
       if (onChange) {
         onChange(newMatrix.map(row => row.join('')));
       }
-      toast("Matriz actualizada");
+      toast("Input actualizado");
     } else {
       toast(`Asegúrate de que los códigos tengan ${long} números, sean enteros entre 0 y ${max}, separados por comas, y que no haya códigos repetidos.`);
     }

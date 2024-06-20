@@ -19,6 +19,7 @@ const DisplayCodeList: React.FC<DisplayCodeListProps> = ({ codeList, paginationS
 
   useEffect(() => {
     setCodes(codeList);
+    setPaginationIndex(0);
   }, [codeList]);
 
 

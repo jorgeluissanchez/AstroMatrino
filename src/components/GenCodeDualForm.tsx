@@ -1,4 +1,4 @@
-import { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
@@ -13,20 +13,43 @@ import InputMatrix from "./InputMatrix";
 function GenCodeDualForm() {
   const [n, setN] = useState(4);
   const [z, setZ] = useState(2);
-  const [k, setK] = useState(2);
   const [codigos, setCodigos] = useState<string[]>([]);
-  const [d, setD] = useState(0);
-  const [l, setL] = useState(0);
+  const [codigosDuales, setCodigosDuales] = useState<string[]>([]);
   const [codigo, setCodigo] = useState<number[]>([0, 0, 0, 0]);
-  const [matrix, setMatrix] = useState<number[][]>(Array.from({ length: 2 }, () => Array.from({ length: 4 }, () => 0)));
   const paginationSize = 10
 
+  const onSubmit = () => {
+    const requestData = {
+      z: z,
+      code: codigos
+    };
+    fetch('https://matrino-dev-gc3hjhi3da-uc.a.run.app/v1/code-theory/dual', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          setCodigosDuales(data.dual);
+          toast("Solicitud exitosa");
+        }
+        else {
+          toast("Ha ocurrido un error");
+        }
+      })
+      .catch((error) => {
+        toast("Ha ocurrido un error");
+      });
+  }
   return (
     <>
       <div className="w-full grid gap-4 md:grid-cols-2">
-        <div className="flex flex-col md:flex-row gap-4 justify-center md:col-span-2">
+        <div className="flex gap-4 justify-center">
 
-        <Card className="w-fit h-fit">
+          <Card className="w-fit h-fit">
             <CardHeader>
               <CardTitle>Codigos duales generados</CardTitle>
               <CardDescription>
@@ -34,7 +57,10 @@ function GenCodeDualForm() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-            <DisplayCodeList codeList={codigos} paginationSize={paginationSize} />
+              <div className="flex flex-col gap-4 items-center">
+                <DisplayCodeList codeList={codigosDuales} paginationSize={paginationSize} />
+                <Button onClick={onSubmit}>Generar Matriz de Control</Button>
+              </div>
 
             </CardContent>
           </Card>
@@ -57,7 +83,9 @@ function GenCodeDualForm() {
                     code={[n]}
                     onChange={(prop) => {
                       setN(prop[0]);
-                      setMatrix(Array.from({ length: k }, () => Array.from({ length: prop[0] }, () => 0)));
+                      setCodigo(new Array(prop[0]).fill(0));
+                      setCodigos([]);
+                      setCodigosDuales([]);
                     }}
                   />
                 </div>
@@ -69,7 +97,9 @@ function GenCodeDualForm() {
                     code={[z]}
                     onChange={(prop) => {
                       setZ(prop[0]);
-                      setMatrix(Array.from({ length: k }, () => Array.from({ length: n }, () => 0)));
+                      setCodigo(new Array(n).fill(0));
+                      setCodigos([]);
+                      setCodigosDuales([]);
                     }}
                   />
                 </div>
@@ -79,7 +109,7 @@ function GenCodeDualForm() {
 
         </div>
         <div className="flex flex-col gap-4 items-center">
-        <Card className="w-fit h-fit">
+          <Card className="w-fit h-fit">
             <CardHeader>
               <CardTitle>Códigos Lineales</CardTitle>
               <CardDescription>
@@ -99,6 +129,7 @@ function GenCodeDualForm() {
                   onClick={() => {
                     if (codigos.some((code) => code === codigo.join(""))) return;
                     setCodigos((prevCodigos) => [...prevCodigos, codigo.join("")]);
+                    setCodigosDuales([]);
                   }}
                 >
                   Añadir Codigo
@@ -107,7 +138,7 @@ function GenCodeDualForm() {
             </CardContent>
           </Card>
           <div className="w-full rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-50 p-6">
-            <InputCodeList codeList={codigos} paginationSize={paginationSize} max={z - 1} long={n} onChange={(codigos) => setCodigos(codigos)} />
+            <InputCodeList codeList={codigos} paginationSize={paginationSize} max={z - 1} long={n} onChange={(codigos) => {setCodigos(codigos); setCodigosDuales([]); }} />
           </div>
         </div>
       </div>
