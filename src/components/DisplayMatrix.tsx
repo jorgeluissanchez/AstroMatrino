@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
   ContextMenu,
@@ -12,7 +12,11 @@ interface DisplayMatrixProps {
 }
 
 function DisplayMatrix({ matrix }: DisplayMatrixProps) {
-  const [inputMatrix] = useState<number[][]>(matrix);
+  const [inputMatrix, setInputMatrix] = useState<number[][]>(matrix);
+  useEffect(() => {
+    setInputMatrix(matrix);
+  }, [matrix]);
+
 
   const handleCopy = async () => {
     const text = inputMatrix.map(row => row.join(',')).join('\n');

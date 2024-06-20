@@ -5,8 +5,29 @@ import GenMatrixForm from '../components/GenMatrixForm.tsx';
 ---
 
 <Layout title="Welcome to Astro.">
-	<main class="p-8 w-screen h-screen overflow-y-auto">
-		<GenMatrixForm client:load/>
+	<main class="p-8 w-screen h-screen overflow-y-auto px-4 py-10 flex flex-col gap-4 items-center">
+		<h1 class="text-5xl mx-auto max-w-[600px] mb-10 font-bold text-warp text-center">
+			Matrino
+		</h1>
+	
+		<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+			<a class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100" href="/generador-de-matrices-de-control">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Generador de Matrices control</h5>
+				<p class="mb-3 font-normal">En esta sección podrás generar matrices de control de paridad</p>
+			</a>
+			<a class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100" href="/generador-de-parametros-y-codigos-lineales">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Generador de Parámetros y códigos lineales</h5>
+				<p class="mb-3 font-normal">En esta sección podrás generar parámetros y códigos lineales</p>
+			</a>
+			<a class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100" href="/generador-de-matrices-y-parametros">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Generador de Matrices y parámetros</h5>
+				<p class="mb-3 font-normal">En esta sección podrás generar matrices y parámetros</p>
+			</a>
+			<a class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100" href="/generador-de-codigos-duales">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Generador de Código Dual</h5>
+				<p class="mb-3 font-normal">En esta sección podrás generar códigos duales</p>
+			</a>
+		</div>
 	</main>
 </Layout>
 <style></style>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from "sonner";
 import {
   ContextMenu,
@@ -14,10 +14,16 @@ interface DisplayCodeListProps {
 }
 
 const DisplayCodeList: React.FC<DisplayCodeListProps> = ({ codeList, paginationSize }) => {
+  const [codes, setCodes] = useState<string[]>(codeList);
   const [paginationIndex, setPaginationIndex] = useState(0);
 
+  useEffect(() => {
+    setCodes(codeList);
+  }, [codeList]);
+
+
   const handleCopy = async () => {
-    const text = codeList.map(code => code.split('').join(',')).join('\n');
+    const text = codes.map(code => code.split('').join(',')).join('\n');
     try {
       await navigator.clipboard.writeText(text);
       toast("Codigos copiados al portapapeles");
@@ -39,8 +45,8 @@ const DisplayCodeList: React.FC<DisplayCodeListProps> = ({ codeList, paginationS
               <p>{code}</p>
             </div>
           ))}
-          {codeList.length === 0 && <p className="text-center col-span-3 md:col-span-5">No hay códigos</p>}
-          {codeList.length > paginationSize && (
+          {codes.length === 0 && <p className="text-center col-span-3 md:col-span-5">No hay códigos</p>}
+          {codes.length > paginationSize && (
             <div className="col-span-3 md:col-span-5 flex justify-center items-center gap-2">
               <Button
                 onClick={() => setPaginationIndex((prevIndex) => Math.max(prevIndex - paginationSize, 0))}

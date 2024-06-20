@@ -22,9 +22,7 @@ const InputCodeList: React.FC<InputCodeListProps> = ({ codeList, paginationSize,
 
   useEffect(() => {
     setCodes(codeList);
-    if (codeList.length < paginationSize) setPaginationIndex(0);
-    if (paginationSize * (paginationIndex + 1) >= codeList.length) setPaginationIndex(0);
-  }, [codeList, paginationSize, paginationIndex]);
+  }, [codeList]);
 
   const processTextToMatrix = (text: string) => {
     const rows = text.trim().split('\n');

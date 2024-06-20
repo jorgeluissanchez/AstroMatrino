@@ -1,0 +1,15 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import '@/styles/globals.css'
+import GenCodeDualForm from '@/components/GenCodeDualForm';
+---
+
+<Layout title="Welcome to Astro.">
+	<main class="p-8 w-screen h-screen overflow-y-auto px-4 py-10 flex flex-col gap-4 items-center">
+		<h1 class="text-5xl mx-auto max-w-[600px] mb-10 font-bold text-warp text-center">
+			Generador de Código Dual
+		</h1>
+        <GenCodeDualForm client:load />
+	</main>
+</Layout>
+<style></style>
