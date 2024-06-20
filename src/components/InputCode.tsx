@@ -6,6 +6,8 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import InputCodeKeyBoard from "./InputCodeKeyBoard";
+import { isMobile } from "react-device-detect";
 
 interface InputCodeProps {
   min?: number;
@@ -18,6 +20,7 @@ function InputCode({ min=0, max, onChange, code }: InputCodeProps) {
   const [inputCode, setInputCode] = useState<number[]>(code);
   const [cursorPosition, setCursorPosition] = useState<number|null>(null);
   const [focusCode, setfocusCode] = useState<boolean>(false);
+  const [codeKeyBoardIsOpen, setCodeKeyBoardIsOpen] = useState<boolean>(false);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (focusCode && cursorPosition !== null) {
@@ -130,13 +133,27 @@ function InputCode({ min=0, max, onChange, code }: InputCodeProps) {
                   <div
                     key={itemIndex + "item"}
                     className={`relative bg-white flex h-10 w-10 items-center justify-center border border-slate-200 text-sm transition-all rounded dark:border-slate-800 cursor-pointer ${cursorPosition === itemIndex ? 'z-10 ring-2 ring-slate-950 ring-offset-white dark:ring-slate-300 dark:ring-offset-slate-950' : 'hover:bg-slate-200'}`}
-                    onClick={() => { setCursorPosition(itemIndex); const fakeInput = document.createElement('input'); if (fakeInput) fakeInput.focus(); }}
+                    onClick={() => { if(isMobile){setCodeKeyBoardIsOpen(true) } else {setCursorPosition(itemIndex);} }}
                   >
                     {item}
                   </div>
             ))}
           </div>
         </div>
+        {codeKeyBoardIsOpen && (
+          <InputCodeKeyBoard
+            min={min}
+            max={max}
+            code={inputCode}
+            onChange={(prop) => {
+              setInputCode(prop);
+              if (onChange) {
+                onChange(prop);
+              }
+            }}
+            onClose={() => setCodeKeyBoardIsOpen(false)}
+          />
+        )}
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem onClick={handleCopy}>Copiar</ContextMenuItem>

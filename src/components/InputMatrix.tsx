@@ -1,23 +1,27 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
+import {isMobile} from 'react-device-detect';
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import InputMatrixKeyBoard from "./InputMatrixKeyBoard";
 
 interface InputMatrixProps {
   min?: number;
   max: number;
   onChange?: (newMatrix: number[][]) => void;
   matrix: number[][];
+  className?: string;
 }
 
-function InputMatrix({ min = 0, max, onChange, matrix }: InputMatrixProps) {
+function InputMatrix({ min = 0, max, onChange, matrix, className }: InputMatrixProps) {
   const [inputMatrix, setInputMatrix] = useState<number[][]>(matrix);
   const [cursorPosition, setCursorPosition] = useState<number[]>([]);
   const [focusMatrix, setFocusMatrix] = useState<boolean>(false);
+  const [matrixKeyBoardIsOpen, setMatrixKeyBoardIsOpen] = useState<boolean>(false);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (focusMatrix) {
@@ -135,9 +139,9 @@ function InputMatrix({ min = 0, max, onChange, matrix }: InputMatrixProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div className="flex w-fit flex-col items-center gap-2">
+        <div className={"flex w-fit flex-col items-center gap-2 "+className}>
           <div
-            className="flex w-fit flex-col items-center gap-2 has-[:disabled]:opacity-50 outline-none bg-white"
+            className="flex w-fit flex-col items-center gap-2 has-[:disabled]:opacity-50 outline-none bg-transparent"
             style={{ position: 'relative' }}
             tabIndex={0}
             onFocus={() => setFocusMatrix(true)}
@@ -149,7 +153,7 @@ function InputMatrix({ min = 0, max, onChange, matrix }: InputMatrixProps) {
                   <div
                     key={colIndex + "col"}
                     className={`relative bg-white flex h-10 w-10 items-center justify-center border border-slate-200 text-sm transition-all rounded dark:border-slate-800 ${cursorPosition[0] === rowIndex && cursorPosition[1] === colIndex ? 'z-10 ring-2 ring-slate-950 ring-offset-white dark:ring-slate-300 dark:ring-offset-slate-950' : 'hover:bg-slate-200'} cursor-pointer`}
-                    onClick={() => { setCursorPosition([rowIndex, colIndex]); const fakeInput = document.createElement('input'); if (fakeInput) fakeInput.focus(); }}
+                    onClick={() => { if(isMobile){setMatrixKeyBoardIsOpen(true) } else {setCursorPosition([rowIndex, colIndex]);} }}
                   >
                     {col}
                   </div>
@@ -158,6 +162,20 @@ function InputMatrix({ min = 0, max, onChange, matrix }: InputMatrixProps) {
             ))}
           </div>
         </div>
+        {matrixKeyBoardIsOpen && (
+          <InputMatrixKeyBoard
+            min={min}
+            max={max}
+            matrix={inputMatrix}
+            onChange={(prop) => {
+              setInputMatrix(prop);
+              if (onChange) {
+                onChange(prop);
+              }
+            }}
+            onClose={() => setMatrixKeyBoardIsOpen(false)}
+          />
+        )}
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem onClick={handleCopy}>Copiar</ContextMenuItem>
