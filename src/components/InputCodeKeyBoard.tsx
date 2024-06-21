@@ -159,9 +159,8 @@ function InputMatrixKeyBoard({ min = 0, max, onChange, code, onClose}: InputMatr
               {ButtonList.map(({ key, content, disabled }: any, index) => (
                 <Button
                   key={index}
-                  variant="ghost"
-                  className="aspect-square w-full text-lg font-medium rounded-lg"
-                  disabled={disabled}
+                  className={`aspect-square w-full text-lg font-medium rounded-lg`}
+                  disabled={(isNaN(parseInt(key)) || parseInt(key) >= min && parseInt(key) <= max) ? false : true}
                   onClick={() => {
                     handleKeyDown(key);
                   }}

@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: 'dist',
   server: {
     androidScheme: "https",
-    url: "http://192.168.1.10:4321",
+    url: "https://astro-matrino.vercel.app",
     cleartext: true
   },
 };

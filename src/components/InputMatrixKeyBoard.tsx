@@ -153,12 +153,11 @@ function InputMatrixKeyBoard({ min = 0, max, onChange, matrix, onClose}: InputMa
         <div className="flex w-full bg-white border-t border-slate-200 p-10">
           <div className="flex flex-col items-center justify-center w-full">
             <div className="grid grid-cols-3 gap-2 max-w-[320px] w-full">
-              {ButtonList.map(({ key, content, disabled }: any, index) => (
+              {ButtonList.map(({ key, content }: any, index) => (
                 <Button
                   key={index}
-                  variant="ghost"
-                  className="aspect-square w-full text-lg font-medium rounded-lg"
-                  disabled={disabled}
+                  className={'aspect-square w-full text-lg font-medium rounded-lg '}
+                  disabled={(isNaN(parseInt(key)) || parseInt(key) >= min && parseInt(key) <= max) ? false : true}
                   onClick={() => {
                     handleKeyDown(key);
                   }}
