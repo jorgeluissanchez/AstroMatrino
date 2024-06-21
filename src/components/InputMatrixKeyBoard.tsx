@@ -126,7 +126,7 @@ function InputMatrixKeyBoard({ min = 0, max, onChange, matrix, onClose}: InputMa
   }, [matrix]);
 
   return (
-    <div className="absolute z-10 top-0 right-0 bg-white bg-opacity-80">
+    <div className="absolute z-20 top-0 right-0 bg-white bg-opacity-80">
       <div className="relative flex flex-col h-screen w-screen">
         <div className="flex flex-1 items-center justify-center">
           <div className={"flex w-fit flex-col items-center gap-2"}>
