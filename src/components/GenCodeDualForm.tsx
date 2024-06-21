@@ -47,7 +47,7 @@ function GenCodeDualForm() {
   return (
     <>
       <div className="w-full grid gap-4 md:grid-cols-2">
-        <div className="flex gap-4 justify-center">
+        <div className="flex gap-4 justify-center md:col-span-2">
 
           <Card className="w-fit h-fit">
             <CardHeader>
@@ -59,7 +59,7 @@ function GenCodeDualForm() {
             <CardContent>
               <div className="flex flex-col gap-4 items-center">
                 <DisplayCodeList codeList={codigosDuales} paginationSize={paginationSize} />
-                <Button onClick={onSubmit}>Generar Matriz de Control</Button>
+                <Button onClick={onSubmit}>Generar Codigos Duales</Button>
               </div>
 
             </CardContent>

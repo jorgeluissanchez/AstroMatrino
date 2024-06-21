@@ -48,7 +48,7 @@ function GenMatrixControlForm() {
   return (
     <>
       <div className="w-full grid gap-4 md:grid-cols-2">
-        <div className="flex gap-4 justify-center">
+        <div className="flex gap-4 justify-center md:col-span-2">
 
           <Card className="w-fit h-fit">
             <CardHeader>
@@ -155,3 +155,5 @@ function GenMatrixControlForm() {
 }
 
 export default GenMatrixControlForm;
+
+
