@@ -92,7 +92,7 @@ function GenCodeDualForm() {
                 <div className="flex gap-1.5 items-center  justify-between">
                   <Label htmlFor="z">Nos Movemos en Z</Label>
                   <InputCode
-                    max={4}
+                    max={3}
                     min={2}
                     code={[z]}
                     onChange={(prop) => {
